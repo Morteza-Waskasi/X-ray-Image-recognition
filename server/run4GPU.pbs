@@ -1,0 +1,36 @@
+#!/bin/bash
+#SBATCH -J bin 
+#SBATCH -o bin.o%j
+#SBATCH -N 1
+#SBATCH -n 24 
+#SBATCH -p parallel
+##SBATCH --mem 64000 
+#SBATCH -p physicsgpu1
+#SBATCH -q physicsgpu1
+##SBATCH -p mheyden1_longgpu
+##SBATCH -q mheyden1_longgpu
+#SBATCH --gres=gpu:GTX1080:4
+##SBATCH -C phyfast
+#SBATCH -t 1-00:00                  # wall time (D-HH:MM)
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=mmoghimi@asu.edu
+
+
+module load python/3.7.1
+
+pip install opencv-python-headless --user
+pip install imblearn --user
+source activate tf1.12-gpu
+###########################################################################################
+set echo
+echo "##########################################################"
+echo "`date` - Starting script"
+echo "##########################################################"
+########################################################################################
+
+python binary.py >& binarylr00001Ep4.out
+
+echo "##########################################################"
+echo "`date` - Finishing script"
+echo "##########################################################"
+exit
